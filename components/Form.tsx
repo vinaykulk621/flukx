@@ -1,13 +1,11 @@
 'use client'
 
+import { useToast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-
 import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,6 +14,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { supabase } from '@/supabase'
+import { useState } from 'react'
+import * as z from 'zod'
 
 const formSchema = z.object({
   link: z
@@ -30,6 +30,10 @@ const formSchema = z.object({
 })
 
 export function ProfileForm() {
+  const [link, setLink] = useState('')
+  const [hasCopied, setHasCopied] = useState(false)
+  const { toast } = useToast()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,36 +41,81 @@ export function ProfileForm() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    const link = values.link
+  async function deleteWord(word: string | undefined) {
+    let { data: _flukx, error } = await supabase
+      .from('flukx')
+      .delete()
+      .eq('word', word)
+  }
 
+  async function insertIntoRedirects(
+    word: string | undefined,
+    redirect_link: string
+  ) {
+    const { data, error } = await supabase
+      .from('flukx_redirects')
+      .insert({ short_link: word || '', redirect: redirect_link })
+      .select()
+  }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // Getting that random word
     // Around 97,563 words in database
     let { data: flukx, error } = await supabase.from('flukx').select().limit(1)
 
-    console.log(link, flukx?.[0].word)
+    // Deleting that word from the flukx table
+    deleteWord(flukx?.[0]?.word)
+
+    // Inserting that word into flukx_redirects table
+    insertIntoRedirects(flukx?.[0]?.word, values.link)
+
+    // Updating The div
+    setLink(`https://flukx.live/${flukx?.[0]?.word}`)
+  }
+
+  async function copyToClipBoard() {
+    const redirectLink = document.getElementById('redirectLink')?.textContent
+    await navigator.clipboard.writeText(redirectLink || 'Error')
+    setHasCopied(true)
+    toast({
+      description: 'Copied',
+    })
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="link"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Looooong link</FormLabel>
-              <FormControl>
-                <Input placeholder="fluxk.live" {...field} />
-              </FormControl>
-              <FormDescription>
-                Enter the link you want to shorten.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>A very Looooong link</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter a Loooooong link" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {link === '' ? (
+            <Button type="submit" className="mt-2 w-fit">
+              Shorten
+            </Button>
+          ) : (
+            <div
+              className={`texg-4xl m-4 rounded-xl p-2 text-center text-white transition-all duration-100 hover:cursor-copy ${
+                hasCopied ? 'bg-zinc-700' : 'bg-zinc-900'
+              }`}
+              onClick={copyToClipBoard}
+              id="redirectLink"
+            >
+              {link}
+            </div>
           )}
-        />
-        <Button type="submit">Shorten</Button>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </>
   )
 }

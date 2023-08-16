@@ -24,6 +24,24 @@ export interface Database {
         }
         Relationships: []
       }
+      flukx_redirects: {
+        Row: {
+          id: string
+          short_link: string
+          redirect: string
+        }
+        Insert: {
+          id?: string
+          short_link: string
+          redirect?: string
+        }
+        Update: {
+          id?: string
+          short_link?: string
+          redirect?: string
+        }
+        Relationships: []
+      }
       pages: {
         Row: {
           content: string

@@ -10,7 +10,7 @@ import { ProfileForm } from '@/components/Form'
 export default async function Home() {
   return (
     <>
-      <main className="bg-zinc-900 px-10 md:px-0 flex justify-center items-center flex-col h-screen">
+      <main className="flex h-screen flex-col items-center justify-center bg-zinc-900 px-10 md:px-0">
         <Card className="max-w-[400px]">
           <CardHeader>
             <CardTitle>Shorten Your Link with Flukx</CardTitle>
