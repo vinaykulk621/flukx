@@ -40,12 +40,10 @@ export function ProfileForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const link = values.link
 
-    let { data: flukx, error } = await supabase
-      .from('flukx')
-      .select('word')
-      .eq('id', Math.floor(Math.random() * 97561))
+    // Around 97,563 words in database
+    let { data: flukx, error } = await supabase.from('flukx').select().limit(1)
 
-    console.log(link, flukx)
+    console.log(link, flukx?.[0].word)
   }
 
   return (
