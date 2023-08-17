@@ -70,7 +70,7 @@ export function ProfileForm() {
     insertIntoRedirects(flukx?.[0]?.word, values.link)
 
     // Updating The div
-    setLink(`https://flukx.live/${flukx?.[0]?.word}`)
+    setLink(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/${flukx?.[0]?.word}`)
   }
 
   async function copyToClipBoard() {
