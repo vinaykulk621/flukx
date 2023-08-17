@@ -5,7 +5,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Flukx',
   description: 'A link Shortner',
-  metadataBase: new URL(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}`),
+  metadataBase: new URL(`${process.env.NEXT_PUBLIC_VERCEL_URL}`),
   keywords: [
     'Next.js',
     'React',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: new URL(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}`),
+    url: new URL(`${process.env.NEXT_PUBLIC_VERCEL_URL}`),
     title: 'Link Shortner',
     description: 'A Link Shortner',
   },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'flukx',
     description: 'A link shortner',
-    images: [`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/og.png`],
+    images: [`${process.env.NEXT_PUBLIC_VERCEL_URL}/og.png`],
     creator: '@kuylycljhyvvy',
   },
 }
