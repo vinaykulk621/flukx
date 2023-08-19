@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format-w": "prettier --write \"**/*.{js,ts,tsx,mdx,md}\" --cache && git add .",
-    "gen-types": "npx supabase gen types typescript --project-id lxpvudvqfvttinrfcjmq > types/supabase.ts"
+    "format": "prettier --write \"**/*.{js,ts,tsx,mdx,md}\" --cache && git add ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.2.0",

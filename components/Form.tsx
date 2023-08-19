@@ -13,9 +13,15 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
-import { supabase } from '@/supabase'
 import { useState } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 import * as z from 'zod'
+import {
+  copyToClipBoard,
+  deleteWord,
+  getWord,
+  insertIntoRedirects,
+} from '@/lib/utils'
 
 const formSchema = z.object({
   link: z
@@ -41,27 +47,11 @@ export function ProfileForm() {
     },
   })
 
-  async function deleteWord(word: string | undefined) {
-    let { data: _flukx, error } = await supabase
-      .from('flukx')
-      .delete()
-      .eq('word', word)
-  }
-
-  async function insertIntoRedirects(
-    word: string | undefined,
-    redirect_link: string
-  ) {
-    const { data, error } = await supabase
-      .from('flukx_redirects')
-      .insert({ short_link: word || '', redirect: redirect_link })
-      .select()
-  }
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLink('loading')
     // Getting that random word
     // Around 97,563 words in database
-    let { data: flukx, error } = await supabase.from('flukx').select().limit(1)
+    const flukx = await getWord()
 
     // Deleting that word from the flukx table
     deleteWord(flukx?.[0]?.word)
@@ -71,15 +61,6 @@ export function ProfileForm() {
 
     // Updating The div
     setLink(`${process.env.NEXT_PUBLIC_VERCEL_URL}/${flukx?.[0]?.word}`)
-  }
-
-  async function copyToClipBoard() {
-    const redirectLink = document.getElementById('redirectLink')?.textContent
-    await navigator.clipboard.writeText(redirectLink || 'Error')
-    setHasCopied(true)
-    toast({
-      description: 'Copied',
-    })
   }
 
   return (
@@ -100,15 +81,25 @@ export function ProfileForm() {
             )}
           />
           {link === '' ? (
-            <Button type="submit" className="mt-2 w-fit">
-              Shorten
-            </Button>
+            <>
+              <Button type="submit" className="mt-2 w-fit">
+                Shorten
+              </Button>
+            </>
+          ) : link == 'loading' ? (
+            <Skeleton className="m-4 mx-auto h-[40px] w-[250px] rounded-xl bg-zinc-900 p-2" />
           ) : (
             <div
               className={`texg-4xl m-4 rounded-xl p-2 text-center text-white transition-all duration-100 hover:cursor-copy ${
                 hasCopied ? 'bg-zinc-700' : 'bg-zinc-900'
               }`}
-              onClick={copyToClipBoard}
+              onClick={() => {
+                copyToClipBoard()
+                setHasCopied(true)
+                toast({
+                  description: 'Copied',
+                })
+              }}
               id="redirectLink"
             >
               {link}
