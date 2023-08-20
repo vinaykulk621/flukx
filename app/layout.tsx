@@ -5,7 +5,8 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Flukx',
-  description: 'A link Shortner',
+  description:
+    'A revolutionary link shortener! 🔗✂️ What makes it truly unique? Unlike others, this tool provides weird and creative words as memorable substitutes instead of random codes. Say goodbye to complicated Codes',
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_VERCEL_URL}`),
   keywords: [
     'Next.js',
