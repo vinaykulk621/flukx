@@ -20,13 +20,15 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: new URL(`${process.env.NEXT_PUBLIC_VERCEL_URL}`),
-    title: 'Link Shortner',
-    description: 'A Link Shortner',
+    title: 'Flukx',
+    description:
+      'A revolutionary link shortener! 🔗✂️ What makes it truly unique? Unlike others, this tool provides weird and creative words as memorable substitutes instead of random codes. Say goodbye to complicated Codes',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'flukx',
-    description: 'A link shortner',
+    title: 'Flukx | A revolutionary link Shortner 🔗✂️',
+    description:
+      'A revolutionary link shortener! 🔗✂️ What makes it truly unique? Unlike others, this tool provides weird and creative words as memorable substitutes instead of random codes. Say goodbye to complicated Codes ',
     images: [`${process.env.NEXT_PUBLIC_VERCEL_URL}/og.png`],
     creator: '@kuylycljhyvvy',
   },

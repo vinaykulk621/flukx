@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { ProfileForm } from '@/components/Form'
+import { GithubSVG } from './github'
 
 export default async function Home() {
   return (
@@ -23,6 +24,7 @@ export default async function Home() {
             <ProfileForm />
           </CardContent>
         </Card>
+        <GithubSVG url="/vinaykulk621/flukx" />
       </main>
     </>
   )
