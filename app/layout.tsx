@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: 'Flukx | A revolutionary link Shortner 🔗✂️',
     description:
       'A revolutionary link shortener! 🔗✂️ What makes it truly unique? Unlike others, this tool provides weird and creative words as memorable substitutes instead of random codes. Say goodbye to complicated Codes ',
-    images: [`${process.env.NEXT_PUBLIC_VERCEL_URL}/og.png`],
+    images: [`${process.env.NEXT_PUBLIC_VERCEL_URL}/og.jpg`],
     creator: '@kuylycljhyvvy',
   },
 }
