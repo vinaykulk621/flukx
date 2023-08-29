@@ -81,29 +81,32 @@ export function ProfileForm() {
             )}
           />
           {link === '' ? (
+            <Button type="submit" className="mt-2 w-fit">
+              Shorten
+            </Button>
+          ) : link == 'loading' ? (
+            <Skeleton className="m-4 mx-auto h-[40px] w-[250px] rounded-xl bg-zinc-900 p-2" />
+          ) : (
             <>
               <Button type="submit" className="mt-2 w-fit">
                 Shorten
               </Button>
+              <div
+                className={`texg-4xl m-4 rounded-xl p-2 text-center text-white transition-all duration-100 hover:cursor-copy ${
+                  hasCopied ? 'bg-zinc-700' : 'bg-zinc-900'
+                }`}
+                onClick={() => {
+                  copyToClipBoard()
+                  setHasCopied(true)
+                  toast({
+                    description: 'Copied',
+                  })
+                }}
+                id="redirectLink"
+              >
+                {link}
+              </div>
             </>
-          ) : link == 'loading' ? (
-            <Skeleton className="m-4 mx-auto h-[40px] w-[250px] rounded-xl bg-zinc-900 p-2" />
-          ) : (
-            <div
-              className={`texg-4xl m-4 rounded-xl p-2 text-center text-white transition-all duration-100 hover:cursor-copy ${
-                hasCopied ? 'bg-zinc-700' : 'bg-zinc-900'
-              }`}
-              onClick={() => {
-                copyToClipBoard()
-                setHasCopied(true)
-                toast({
-                  description: 'Copied',
-                })
-              }}
-              id="redirectLink"
-            >
-              {link}
-            </div>
           )}
         </form>
       </Form>
