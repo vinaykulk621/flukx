@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   ],
   creator: 'Vinay',
   openGraph: {
+    images: [`${process.env.NEXT_PUBLIC_VERCEL_URL}/og.jpg`],
     type: 'website',
     locale: 'en_US',
     url: new URL(`${process.env.NEXT_PUBLIC_VERCEL_URL}/og.jpg`),
